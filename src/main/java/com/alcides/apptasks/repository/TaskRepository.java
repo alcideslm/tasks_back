@@ -11,4 +11,7 @@ import com.alcides.apptasks.model.Task;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
 	List<Task> findByIsExcluido(boolean b);
+
+	List<Task> findByIsExcluidoAndUserId(boolean b, Long id);
+
 }

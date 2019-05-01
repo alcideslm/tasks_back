@@ -1,7 +1,7 @@
 package com.alcides.apptasks.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,10 +32,21 @@ public class Task extends AuditModel{
 	@Size(min = 0, max = 10000)
 	private String texto;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 	
+	private Boolean concluido;
+	
+	@Column(nullable = false,  columnDefinition = "boolean default false")
+	public Boolean getConcluido() {
+		return concluido;
+	}
+
+	public void setConcluido(Boolean concluido) {
+		this.concluido = concluido;
+	}
+
 	public User getUser() {
 		return user;
 	}

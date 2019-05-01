@@ -3,8 +3,8 @@ package com.alcides.apptasks.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +17,7 @@ import com.alcides.apptasks.model.User;
 import com.alcides.apptasks.repository.UserRepository;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value="/user")
 public class UserController {
 	
@@ -24,13 +25,21 @@ public class UserController {
 	private UserRepository repository;
 	
 	@GetMapping()
-    public List<User> getAll(Pageable pageable) {
+    public List<User> getAll() {
         return repository.findByIsExcluido(false);
     }
 	
 	@PostMapping()
-    public User save(@RequestBody User task) {
-        return repository.save(task);
+    public User save(@RequestBody User user) {
+		if (user == null)
+			return repository.save(null);
+		
+		if (user.getId() == null) {
+			user.setIsExcluido(false);
+		}
+		
+		
+        return repository.save(user);
     }
 	
 	@DeleteMapping("/{id}")
